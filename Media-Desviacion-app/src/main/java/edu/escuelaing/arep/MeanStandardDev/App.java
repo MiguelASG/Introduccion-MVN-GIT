@@ -1,42 +1,48 @@
 package edu.escuelaing.arep.MeanStandardDev;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
 
 
 
 
 public class App 
 {
-    public static void main(String[] args) {
-        Resolver(args);
+    //Se crea un constructor para hacer una instancia que pueda ejecutarse
+    public App(){
+
+    }
+
+
+    public static void main(String[] args) throws IOException{
+        try{
+            App a = new App();
+        a.Resolver();
+        }catch(Exception e){
+            System.out.println("No fue posible leer el archivo");
+        }     
     } 
     
-
-    public void Resolver(String datos) throws IOException{
+    //Función donde se hace controla la lectura y captura los resultados
+    public void Resolver() throws IOException{
         try {
-            System.out.println("entro");
-            FileReader fr = new FileReader(datos);
-            System.out.println("entro1");
-            BufferedReader br = new BufferedReader(fr);
-            System.out.println("entro2");
+            //Se lee el archivo en la carpeta origen
+            File file = new File("input.in");
+            //Se instancia el lector, que ayudara a controlar el archivo
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            //Se crea la linked list
             LinkedListArep Lista = new LinkedListArep();
-            System.out.println("entro3");
+            //Se controlan los datos que entraran a la linked list
             String linea = br.readLine();
-            System.out.println("entro4");
             while (linea!=null) {
                 Lista.add(Double.parseDouble(linea));
                 linea = br.readLine();
             }
-            System.out.println("entro5");
             br.close();
+            //Se piden los resultados con las funciones que posee la clase de linked list
             System.out.println("Media : " + Lista.Mean());
-            System.out.println("Desviación Estandar : " + Lista.StandardDev());
+            System.out.println("Desviacion Estandar : " + Lista.StandardDev());
 
         } catch (final Exception e) {
-            System.out.println("No fue posible resolver el archivo");
+            throw new IOException("No fue posible resolver el archivo",e);
         }
     	
     }
